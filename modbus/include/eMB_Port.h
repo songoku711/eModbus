@@ -58,22 +58,22 @@ typedef enum
 void eMB_PortEnterCriticalSection(void);
 void eMB_PortExitCriticalSection(void);
 
-bool (*eMB_PortEventInit)(void);
-bool (*eMB_PortEventPost)(eMB_EventType eEvent);
-bool (*eMB_PortEventGet)(eMB_EventType* eEvent);
+typedef bool (*eMB_PortEventInit)(void);
+typedef bool (*eMB_PortEventPost)(eMB_EventType eEvent);
+typedef bool (*eMB_PortEventGet)(eMB_EventType* eEvent);
 
-void (*eMB_PortResourceInit)(void);
-bool (*eMB_PortResourceTake)(void);
-void (*eMB_PortResourceRelease)(void);
+typedef void (*eMB_PortResourceInit)(void);
+typedef bool (*eMB_PortResourceTake)(void);
+typedef void (*eMB_PortResourceRelease)(void);
 
-bool (*eMB_PortSerialInit)(void);
-void (*eMB_PortSerialSetMode)(eMB_PortSerialModeType serialMode);
-bool (*eMB_PortSerialGetByte)(uint8_t *data);
-bool (*eMB_PortSerialPutByte)(uint8_t data);
+typedef bool (*eMB_PortSerialInit)(void);
+typedef void (*eMB_PortSerialSetMode)(eMB_PortSerialModeType serialMode);
+typedef bool (*eMB_PortSerialGetByte)(uint8_t *data);
+typedef bool (*eMB_PortSerialPutByte)(uint8_t data);
 
-bool (*eMB_PortTimersInit)(void);
-void (*eMB_PortTimersEnable)(eMB_PortTimerModeType timerMode);
-void (*eMB_PortTimersDisable)(void);
+typedef bool (*eMB_PortTimersInit)(void);
+typedef void (*eMB_PortTimersEnable)(eMB_PortTimerModeType timerMode);
+typedef void (*eMB_PortTimersDisable)(void);
 
 
 

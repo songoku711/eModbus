@@ -77,7 +77,6 @@ static volatile bool eMB_RTU_FrameIsBroadcast = false;
 eMB_ErrorCodeType eMB_Master_RTUInit(void)
 {
   eMB_ErrorCodeType errStatus = eMB_ENOERR;
-  uint32_t usTimerT35_50us;
 
   eMB_PortEnterCriticalSection();
 
@@ -349,7 +348,7 @@ bool eMB_Master_RTUTimerExpiredCallback(void)
     /* An error occured while receiving the frame. */
     case eMB_RTU_RECV_STATE_ERROR:
     {
-      eMB_Util_GetErrorEvent(eMB_EV_ERROR_RECEIVE_DATA);
+      eMB_Util_SetErrorEvent(eMB_EV_ERROR_RECEIVE_DATA);
       eMB_gConfigPtr->pPortEventPost(eMB_EV_ERROR);
 
       break;
@@ -370,7 +369,7 @@ bool eMB_Master_RTUTimerExpiredCallback(void)
     {
       if (eMB_RTU_FrameIsBroadcast == false)
       {
-        eMB_Util_GetErrorEvent(eMB_EV_ERROR_RESPOND_TIMEOUT);
+        eMB_Util_SetErrorEvent(eMB_EV_ERROR_RESPOND_TIMEOUT);
         eMB_gConfigPtr->pPortEventPost(eMB_EV_ERROR);
       }
 
@@ -386,10 +385,10 @@ bool eMB_Master_RTUTimerExpiredCallback(void)
   eMB_gConfigPtr->pPortTimersDisable();
 
   /* If timer mode is convert delay, the master event then turns eMB_EV_EXECUTE status. */
-  if (eMB_RTU_TimerMode == eMB_PORT_TIMER_CONVERT_DELAY)
-  {
-    eMB_gConfigPtr->pPortEventPost(eMB_EV_EXECUTE);
-  }
+  // if (eMB_RTU_TimerMode == eMB_PORT_TIMER_CONVERT_DELAY)
+  // {
+  //   eMB_gConfigPtr->pPortEventPost(eMB_EV_EXECUTE);
+  // }
 
   return true;
 }

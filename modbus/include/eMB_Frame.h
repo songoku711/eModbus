@@ -95,8 +95,8 @@ extern "C" {
 
 typedef void (*eMB_FrameStartCallout)(void);
 typedef void (*eMB_FrameStopCallout)(void);
-typedef void (*eMB_FrameSendCallout)(const uint8_t *pu8Frame, uint16_t u16Length);
-typedef void (*eMB_FrameReceiveCallout)(uint8_t **pu8Frame, uint16_t *pu16Length);
+typedef eMB_ErrorCodeType (*eMB_FrameSendCallout)(uint8_t ucSlaveAddress, const uint8_t *pucFrame, uint16_t usLength);
+typedef eMB_ErrorCodeType (*eMB_FrameReceiveCallout)(uint8_t *pucRcvAddress, uint8_t **pucFrame, uint16_t *pusLength);
 
 typedef uint8_t (*eMB_FrameGetSlaveAddressCallout)(void);
 typedef void (*eMB_FrameSetSlaveAddressCallout)(uint8_t address);

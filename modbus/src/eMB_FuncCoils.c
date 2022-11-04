@@ -27,28 +27,28 @@ extern "C" {
 *                                       DEFINES AND MACROS
 ===============================================================================================*/
 
-#define eMB_PDU_REQ_READ_ADDR_OFF                 ( eMB_PDU_DATA_OFF + 0 )
-#define eMB_PDU_REQ_READ_COILCNT_OFF              ( eMB_PDU_DATA_OFF + 2 )
+#define eMB_PDU_REQ_READ_ADDR_OFF                 ( eMB_PDU_DATA_OFFSET + 0 )
+#define eMB_PDU_REQ_READ_COILCNT_OFF              ( eMB_PDU_DATA_OFFSET + 2 )
 #define eMB_PDU_REQ_READ_SIZE                     ( 4 )
-#define eMB_PDU_FUNC_READ_COILCNT_OFF             ( eMB_PDU_DATA_OFF + 0 )
-#define eMB_PDU_FUNC_READ_VALUES_OFF              ( eMB_PDU_DATA_OFF + 1 )
+#define eMB_PDU_FUNC_READ_COILCNT_OFF             ( eMB_PDU_DATA_OFFSET + 0 )
+#define eMB_PDU_FUNC_READ_VALUES_OFF              ( eMB_PDU_DATA_OFFSET + 1 )
 #define eMB_PDU_FUNC_READ_SIZE_MIN                ( 1 )
 
-#define eMB_PDU_REQ_WRITE_ADDR_OFF                ( eMB_PDU_DATA_OFF )
-#define eMB_PDU_REQ_WRITE_VALUE_OFF               ( eMB_PDU_DATA_OFF + 2 )
+#define eMB_PDU_REQ_WRITE_ADDR_OFF                ( eMB_PDU_DATA_OFFSET )
+#define eMB_PDU_REQ_WRITE_VALUE_OFF               ( eMB_PDU_DATA_OFFSET + 2 )
 #define eMB_PDU_REQ_WRITE_SIZE                    ( 4 )
-#define eMB_PDU_FUNC_WRITE_ADDR_OFF               ( eMB_PDU_DATA_OFF )
-#define eMB_PDU_FUNC_WRITE_VALUE_OFF              ( eMB_PDU_DATA_OFF + 2 )
+#define eMB_PDU_FUNC_WRITE_ADDR_OFF               ( eMB_PDU_DATA_OFFSET )
+#define eMB_PDU_FUNC_WRITE_VALUE_OFF              ( eMB_PDU_DATA_OFFSET + 2 )
 #define eMB_PDU_FUNC_WRITE_SIZE                   ( 4 )
 
-#define eMB_PDU_REQ_WRITE_MUL_ADDR_OFF            ( eMB_PDU_DATA_OFF )
-#define eMB_PDU_REQ_WRITE_MUL_COILCNT_OFF         ( eMB_PDU_DATA_OFF + 2 )
-#define eMB_PDU_REQ_WRITE_MUL_BYTECNT_OFF         ( eMB_PDU_DATA_OFF + 4 )
-#define eMB_PDU_REQ_WRITE_MUL_VALUES_OFF          ( eMB_PDU_DATA_OFF + 5 )
+#define eMB_PDU_REQ_WRITE_MUL_ADDR_OFF            ( eMB_PDU_DATA_OFFSET )
+#define eMB_PDU_REQ_WRITE_MUL_COILCNT_OFF         ( eMB_PDU_DATA_OFFSET + 2 )
+#define eMB_PDU_REQ_WRITE_MUL_BYTECNT_OFF         ( eMB_PDU_DATA_OFFSET + 4 )
+#define eMB_PDU_REQ_WRITE_MUL_VALUES_OFF          ( eMB_PDU_DATA_OFFSET + 5 )
 #define eMB_PDU_REQ_WRITE_MUL_SIZE_MIN            ( 5 )
 #define eMB_PDU_REQ_WRITE_MUL_COILCNT_MAX         ( 0x07B0 )
-#define eMB_PDU_FUNC_WRITE_MUL_ADDR_OFF           ( eMB_PDU_DATA_OFF )
-#define eMB_PDU_FUNC_WRITE_MUL_COILCNT_OFF        ( eMB_PDU_DATA_OFF + 2 )
+#define eMB_PDU_FUNC_WRITE_MUL_ADDR_OFF           ( eMB_PDU_DATA_OFFSET )
+#define eMB_PDU_FUNC_WRITE_MUL_COILCNT_OFF        ( eMB_PDU_DATA_OFFSET + 2 )
 #define eMB_PDU_FUNC_WRITE_MUL_SIZE               ( 5 )
 
 
@@ -99,9 +99,9 @@ eMB_ErrorCodeType eMB_Master_RequestReadCoils
     /* Fill payload data */
     pPduBuffer[eMB_PDU_FUNC_OFFSET]               = eMB_FUNC_READ_COILS;
     pPduBuffer[eMB_PDU_REQ_READ_ADDR_OFF]         = (uint8_t)(coilAddr >> 8U);
-    pPduBuffer[eMB_PDU_REQ_READ_ADDR_OFF + 1]     = (uint8_t)(coilAddr && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_READ_ADDR_OFF + 1]     = (uint8_t)(coilAddr & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_READ_COILCNT_OFF ]     = (uint8_t)(coilNum >> 8U);
-    pPduBuffer[eMB_PDU_REQ_READ_COILCNT_OFF + 1]  = (uint8_t)(coilNum && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_READ_COILCNT_OFF + 1]  = (uint8_t)(coilNum & (uint16_t)0x00FFU);
 
     /* Set PDU buffer length */
     eMB_FrameSetSendPduLengthCalloutArr(eMB_PDU_SIZE_MIN + eMB_PDU_REQ_READ_SIZE);
@@ -236,12 +236,12 @@ eMB_ErrorCodeType eMB_Master_RequestWriteSingleCoil
     /* Fill payload data */
     pPduBuffer[eMB_PDU_FUNC_OFFSET]             = eMB_FUNC_WRITE_SINGLE_COIL;
     pPduBuffer[eMB_PDU_REQ_WRITE_ADDR_OFF]      = (uint8_t)(coilAddr >> 8U);
-    pPduBuffer[eMB_PDU_REQ_WRITE_ADDR_OFF + 1]  = (uint8_t)(coilAddr && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_WRITE_ADDR_OFF + 1]  = (uint8_t)(coilAddr & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_WRITE_VALUE_OFF ]    = (uint8_t)(coilData >> 8U);
-    pPduBuffer[eMB_PDU_REQ_WRITE_VALUE_OFF + 1] = (uint8_t)(coilData && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_WRITE_VALUE_OFF + 1] = (uint8_t)(coilData & (uint16_t)0x00FFU);
 
     /* Set PDU buffer length */
-    eMB_FrameSetSendPduLengthCalloutArr(eMB_PDU_SIZE_MIN + eMB_PDU_REQ_WRITE_SIZ);
+    eMB_FrameSetSendPduLengthCalloutArr(eMB_PDU_SIZE_MIN + eMB_PDU_REQ_WRITE_SIZE);
 
     (void)eMB_gConfigPtr->pPortEventPost(eMB_EV_FRAME_SENT);
   }
@@ -366,9 +366,9 @@ eMB_ErrorCodeType eMB_Master_RequestWriteMultipleCoils
     /* Fill payload data */
     pPduBuffer[eMB_PDU_FUNC_OFFSET]                   = eMB_FUNC_WRITE_MULTIPLE_COILS;
     pPduBuffer[eMB_PDU_REQ_WRITE_MUL_ADDR_OFF]        = (uint8_t)(coilAddr >> 8U);
-    pPduBuffer[eMB_PDU_REQ_WRITE_MUL_ADDR_OFF + 1]    = (uint8_t)(coilAddr && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_WRITE_MUL_ADDR_OFF + 1]    = (uint8_t)(coilAddr & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_WRITE_MUL_COILCNT_OFF]     = (uint8_t)(coilNum >> 8U);
-    pPduBuffer[eMB_PDU_REQ_WRITE_MUL_COILCNT_OFF + 1] = (uint8_t)(coilNum && (uint16_t)0x00FFU) ;
+    pPduBuffer[eMB_PDU_REQ_WRITE_MUL_COILCNT_OFF + 1] = (uint8_t)(coilNum & (uint16_t)0x00FFU) ;
 
     /* Test if the quantity of coils is a multiple of 8. If not last
      * byte is only partially field with unused coils set to zero. */

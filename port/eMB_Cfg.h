@@ -118,7 +118,7 @@ extern "C" {
 #if (defined eMB_MASTER_RTU_ENABLED) || (defined eMB_MASTER_ASCII_ENABLED)
 /*! \brief If master receives a frame, the master will wait time of T35 to determine if the
  * last character received, then master can execute received frame */
-#define eMB_MASTER_DELAY_MS_T35                                       (50 )
+#define eMB_MASTER_DELAY_MS_T35                                       ( 50 )      /* 50 x 100us = 5ms */
 
 /*! \brief If master send a broadcast frame, the master will wait time of convert to delay,
  * then master can send other frame */
@@ -127,7 +127,7 @@ extern "C" {
 /*! \brief If master send a frame which is not broadcast,the master will wait sometime for slave.
  * And if slave is not respond in this time,the master will process this timeout error.
  * Then master can send other frame */
-#define eMB_MASTER_TIMEOUT_MS_RESPOND                                 (1000)
+#define eMB_MASTER_TIMEOUT_MS_RESPOND                                 (1000)      /* 1000 x 100us = 100ms */
 
 /*! \brief The total slaves in Modbus Master system. Default 16.
  * \note : The slave ID must be continuous from 1.*/
@@ -140,6 +140,13 @@ extern "C" {
 /*! \brief Use the default Modbus Master TCP port (502) */
 #define eMB_MASTER_TCP_PORT_USE_DEFAULT                               (  0 )
 #endif
+
+
+
+/*===============================================================================================
+*                                           VARIABLES
+===============================================================================================*/
+
 
 
 

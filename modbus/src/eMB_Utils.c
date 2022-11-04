@@ -55,8 +55,6 @@ extern "C" {
 
 static eMB_ErrorEventType eMB_ErrorEvent;
 
-#if (defined eMB_MASTER_RTU_ENABLED) || (defined eMB_MASTER_ASCII_ENABLED)
-
 /* Discrete inputs variables */
 uint16_t usMDiscInStart = M_DISCRETE_INPUT_START;
 
@@ -418,9 +416,9 @@ eMB_ErrorCodeType eMB_Util_FuncHoldingRegisterCallback
  */
 eMB_ErrorCodeType eMB_Util_FuncInputRegisterCallback
 (
-  uint8_t * pucRegBuffer,
   uint16_t usAddress,
-  uint16_t usNRegs
+  uint16_t usNRegs,
+  uint8_t *pucRegBuffer
 )
 {
   eMB_ErrorCodeType errStatus = eMB_ENOERR;

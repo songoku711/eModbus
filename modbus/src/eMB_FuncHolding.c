@@ -27,40 +27,40 @@ extern "C" {
 *                                       DEFINES AND MACROS
 ===============================================================================================*/
 
-#define eMB_PDU_REQ_READ_ADDR_OFF                 ( eMB_PDU_DATA_OFF + 0 )
-#define eMB_PDU_REQ_READ_REGCNT_OFF               ( eMB_PDU_DATA_OFF + 2 )
+#define eMB_PDU_REQ_READ_ADDR_OFF                 ( eMB_PDU_DATA_OFFSET + 0 )
+#define eMB_PDU_REQ_READ_REGCNT_OFF               ( eMB_PDU_DATA_OFFSET + 2 )
 #define eMB_PDU_REQ_READ_SIZE                     ( 4 )
 #define eMB_PDU_FUNC_READ_REGCNT_MAX              ( 0x007D )
-#define eMB_PDU_FUNC_READ_BYTECNT_OFF             ( eMB_PDU_DATA_OFF + 0 )
-#define eMB_PDU_FUNC_READ_VALUES_OFF              ( eMB_PDU_DATA_OFF + 1 )
+#define eMB_PDU_FUNC_READ_BYTECNT_OFF             ( eMB_PDU_DATA_OFFSET + 0 )
+#define eMB_PDU_FUNC_READ_VALUES_OFF              ( eMB_PDU_DATA_OFFSET + 1 )
 #define eMB_PDU_FUNC_READ_SIZE_MIN                ( 1 )
 
-#define eMB_PDU_REQ_WRITE_ADDR_OFF                ( eMB_PDU_DATA_OFF + 0)
-#define eMB_PDU_REQ_WRITE_VALUE_OFF               ( eMB_PDU_DATA_OFF + 2 )
+#define eMB_PDU_REQ_WRITE_ADDR_OFF                ( eMB_PDU_DATA_OFFSET + 0)
+#define eMB_PDU_REQ_WRITE_VALUE_OFF               ( eMB_PDU_DATA_OFFSET + 2 )
 #define eMB_PDU_REQ_WRITE_SIZE                    ( 4 )
-#define eMB_PDU_FUNC_WRITE_ADDR_OFF               ( eMB_PDU_DATA_OFF + 0)
-#define eMB_PDU_FUNC_WRITE_VALUE_OFF              ( eMB_PDU_DATA_OFF + 2 )
+#define eMB_PDU_FUNC_WRITE_ADDR_OFF               ( eMB_PDU_DATA_OFFSET + 0)
+#define eMB_PDU_FUNC_WRITE_VALUE_OFF              ( eMB_PDU_DATA_OFFSET + 2 )
 #define eMB_PDU_FUNC_WRITE_SIZE                   ( 4 )
 
-#define eMB_PDU_REQ_WRITE_MUL_ADDR_OFF            ( eMB_PDU_DATA_OFF + 0 )
-#define eMB_PDU_REQ_WRITE_MUL_REGCNT_OFF          ( eMB_PDU_DATA_OFF + 2 )
-#define eMB_PDU_REQ_WRITE_MUL_BYTECNT_OFF         ( eMB_PDU_DATA_OFF + 4 )
-#define eMB_PDU_REQ_WRITE_MUL_VALUES_OFF          ( eMB_PDU_DATA_OFF + 5 )
+#define eMB_PDU_REQ_WRITE_MUL_ADDR_OFF            ( eMB_PDU_DATA_OFFSET + 0 )
+#define eMB_PDU_REQ_WRITE_MUL_REGCNT_OFF          ( eMB_PDU_DATA_OFFSET + 2 )
+#define eMB_PDU_REQ_WRITE_MUL_BYTECNT_OFF         ( eMB_PDU_DATA_OFFSET + 4 )
+#define eMB_PDU_REQ_WRITE_MUL_VALUES_OFF          ( eMB_PDU_DATA_OFFSET + 5 )
 #define eMB_PDU_REQ_WRITE_MUL_SIZE_MIN            ( 5 )
 #define eMB_PDU_REQ_WRITE_MUL_REGCNT_MAX          ( 0x0078 )
-#define eMB_PDU_FUNC_WRITE_MUL_ADDR_OFF           ( eMB_PDU_DATA_OFF + 0 )
-#define eMB_PDU_FUNC_WRITE_MUL_REGCNT_OFF         ( eMB_PDU_DATA_OFF + 2 )
+#define eMB_PDU_FUNC_WRITE_MUL_ADDR_OFF           ( eMB_PDU_DATA_OFFSET + 0 )
+#define eMB_PDU_FUNC_WRITE_MUL_REGCNT_OFF         ( eMB_PDU_DATA_OFFSET + 2 )
 #define eMB_PDU_FUNC_WRITE_MUL_SIZE               ( 4 )
 
-#define eMB_PDU_REQ_READWRITE_READ_ADDR_OFF       ( eMB_PDU_DATA_OFF + 0 )
-#define eMB_PDU_REQ_READWRITE_READ_REGCNT_OFF     ( eMB_PDU_DATA_OFF + 2 )
-#define eMB_PDU_REQ_READWRITE_WRITE_ADDR_OFF      ( eMB_PDU_DATA_OFF + 4 )
-#define eMB_PDU_REQ_READWRITE_WRITE_REGCNT_OFF    ( eMB_PDU_DATA_OFF + 6 )
-#define eMB_PDU_REQ_READWRITE_WRITE_BYTECNT_OFF   ( eMB_PDU_DATA_OFF + 8 )
-#define eMB_PDU_REQ_READWRITE_WRITE_VALUES_OFF    ( eMB_PDU_DATA_OFF + 9 )
+#define eMB_PDU_REQ_READWRITE_READ_ADDR_OFF       ( eMB_PDU_DATA_OFFSET + 0 )
+#define eMB_PDU_REQ_READWRITE_READ_REGCNT_OFF     ( eMB_PDU_DATA_OFFSET + 2 )
+#define eMB_PDU_REQ_READWRITE_WRITE_ADDR_OFF      ( eMB_PDU_DATA_OFFSET + 4 )
+#define eMB_PDU_REQ_READWRITE_WRITE_REGCNT_OFF    ( eMB_PDU_DATA_OFFSET + 6 )
+#define eMB_PDU_REQ_READWRITE_WRITE_BYTECNT_OFF   ( eMB_PDU_DATA_OFFSET + 8 )
+#define eMB_PDU_REQ_READWRITE_WRITE_VALUES_OFF    ( eMB_PDU_DATA_OFFSET + 9 )
 #define eMB_PDU_REQ_READWRITE_SIZE_MIN            ( 9 )
-#define eMB_PDU_FUNC_READWRITE_READ_BYTECNT_OFF   ( eMB_PDU_DATA_OFF + 0 )
-#define eMB_PDU_FUNC_READWRITE_READ_VALUES_OFF    ( eMB_PDU_DATA_OFF + 1 )
+#define eMB_PDU_FUNC_READWRITE_READ_BYTECNT_OFF   ( eMB_PDU_DATA_OFFSET + 0 )
+#define eMB_PDU_FUNC_READWRITE_READ_VALUES_OFF    ( eMB_PDU_DATA_OFFSET + 1 )
 #define eMB_PDU_FUNC_READWRITE_SIZE_MIN           ( 1 )
 
 
@@ -111,9 +111,9 @@ eMB_ErrorCodeType eMB_Master_RequestWriteHoldingRegister
     /* Fill payload data */
     pPduBuffer[eMB_PDU_FUNC_OFFSET]             = eMB_FUNC_WRITE_REGISTER;
     pPduBuffer[eMB_PDU_REQ_WRITE_ADDR_OFF]      = (uint8_t)(holdingAddr >> 8U);
-    pPduBuffer[eMB_PDU_REQ_WRITE_ADDR_OFF + 1]  = (uint8_t)(holdingAddr && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_WRITE_ADDR_OFF + 1]  = (uint8_t)(holdingAddr & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_WRITE_VALUE_OFF]     = (uint8_t)(holdingData >> 8U);
-    pPduBuffer[eMB_PDU_REQ_WRITE_VALUE_OFF + 1] = (uint8_t)(holdingData && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_WRITE_VALUE_OFF + 1] = (uint8_t)(holdingData & (uint16_t)0x00FFU);
 
     /* Set PDU buffer length */
     eMB_FrameSetSendPduLengthCalloutArr(eMB_PDU_SIZE_MIN + eMB_PDU_REQ_WRITE_SIZE);
@@ -209,9 +209,9 @@ eMB_ErrorCodeType eMB_Master_RequestWriteMultipleHoldingRegister
     /* Fill payload data */
     pPduBuffer[eMB_PDU_FUNC_OFFSET]                  = eMB_FUNC_WRITE_MULTIPLE_REGISTERS;
     pPduBuffer[eMB_PDU_REQ_WRITE_MUL_ADDR_OFF]       = (uint8_t)(holdingAddr >> 8U);
-    pPduBuffer[eMB_PDU_REQ_WRITE_MUL_ADDR_OFF + 1]   = (uint8_t)(holdingAddr && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_WRITE_MUL_ADDR_OFF + 1]   = (uint8_t)(holdingAddr & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_WRITE_MUL_REGCNT_OFF]     = (uint8_t)(holdingNum >> 8U);
-    pPduBuffer[eMB_PDU_REQ_WRITE_MUL_REGCNT_OFF + 1] = (uint8_t)(holdingNum && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_WRITE_MUL_REGCNT_OFF + 1] = (uint8_t)(holdingNum & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_WRITE_MUL_BYTECNT_OFF]    = (uint8_t)(holdingNum * 2U);
 
     pPduBuffer += eMB_PDU_REQ_WRITE_MUL_VALUES_OFF;
@@ -332,9 +332,9 @@ eMB_ErrorCodeType eMB_Master_RequestReadHoldingRegister
     /* Fill payload data */
     pPduBuffer[eMB_PDU_FUNC_OFFSET]             = eMB_FUNC_READ_HOLDING_REGISTER;
     pPduBuffer[eMB_PDU_REQ_READ_ADDR_OFF]       = (uint8_t)(holdingAddr >> 8U);
-    pPduBuffer[eMB_PDU_REQ_READ_ADDR_OFF + 1]   = (uint8_t)(holdingAddr && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_READ_ADDR_OFF + 1]   = (uint8_t)(holdingAddr & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_READ_REGCNT_OFF]     = (uint8_t)(holdingNum >> 8U);
-    pPduBuffer[eMB_PDU_REQ_READ_REGCNT_OFF + 1] = (uint8_t)(holdingNum && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_READ_REGCNT_OFF + 1] = (uint8_t)(holdingNum & (uint16_t)0x00FFU);
 
     /* Set PDU buffer length */
     eMB_FrameSetSendPduLengthCalloutArr(eMB_PDU_SIZE_MIN + eMB_PDU_REQ_READ_SIZE);
@@ -455,13 +455,13 @@ eMB_ErrorCodeType eMB_Master_RequestReadWriteMultipleHoldingRegister
     /* Fill payload data */
     pPduBuffer[eMB_PDU_FUNC_OFFSET]                        = eMB_FUNC_READWRITE_MULTIPLE_REGISTERS;
     pPduBuffer[eMB_PDU_REQ_READWRITE_READ_ADDR_OFF]        = (uint8_t)(holdingReadAddr >> 8U);
-    pPduBuffer[eMB_PDU_REQ_READWRITE_READ_ADDR_OFF + 1]    = (uint8_t)(holdingReadAddr && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_READWRITE_READ_ADDR_OFF + 1]    = (uint8_t)(holdingReadAddr & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_READWRITE_READ_REGCNT_OFF]      = (uint8_t)(holdingReadNum >> 8U);
-    pPduBuffer[eMB_PDU_REQ_READWRITE_READ_REGCNT_OFF + 1]  = (uint8_t)(holdingReadNum && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_READWRITE_READ_REGCNT_OFF + 1]  = (uint8_t)(holdingReadNum & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_READWRITE_WRITE_ADDR_OFF]       = (uint8_t)(holdingWriteAddr >> 8U);
-    pPduBuffer[eMB_PDU_REQ_READWRITE_WRITE_ADDR_OFF + 1]   = (uint8_t)(holdingWriteAddr && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_READWRITE_WRITE_ADDR_OFF + 1]   = (uint8_t)(holdingWriteAddr & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_READWRITE_WRITE_REGCNT_OFF]     = (uint8_t)(holdingWriteNum >> 8U);
-    pPduBuffer[eMB_PDU_REQ_READWRITE_WRITE_REGCNT_OFF + 1] = (uint8_t)(holdingWriteNum && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_READWRITE_WRITE_REGCNT_OFF + 1] = (uint8_t)(holdingWriteNum & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_READWRITE_WRITE_BYTECNT_OFF]    = (uint8_t)(holdingWriteNum * 2U);
 
     pPduBuffer += eMB_PDU_REQ_READWRITE_WRITE_VALUES_OFF;

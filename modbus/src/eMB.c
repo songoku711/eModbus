@@ -57,9 +57,22 @@ eMB_FrameGetSendPduLengthCallout                  eMB_FrameGetSendPduLengthCallo
 
 eMB_FrameIsBroadcastCallout                       eMB_FrameIsBroadcastCalloutArr;
 
+
+
+extern eMB_ExceptionType eMB_FuncReportSlaveIDHandler(uint8_t *recvPduFrame, uint16_t *recvPduLength);
+extern eMB_ExceptionType eMB_Master_FuncReadInputRegisterHandler(uint8_t *recvPduFrame, uint16_t *recvPduLength);
+extern eMB_ExceptionType eMB_Master_FuncReadHoldingRegisterHandler(uint8_t *recvPduFrame, uint16_t *recvPduLength);
+extern eMB_ExceptionType eMB_Master_FuncWriteMultipleHoldingRegisterHandler(uint8_t *recvPduFrame, uint16_t *recvPduLength);
+extern eMB_ExceptionType eMB_Master_FuncWriteHoldingRegisterHandler(uint8_t *recvPduFrame, uint16_t *recvPduLength);
+extern eMB_ExceptionType eMB_Master_FuncReadWriteMultipleHoldingRegisterHandler(uint8_t *recvPduFrame, uint16_t *recvPduLength);
+extern eMB_ExceptionType eMB_Master_FuncReadCoilsHandler(uint8_t *recvPduFrame, uint16_t *recvPduLength);
+extern eMB_ExceptionType eMB_Master_FuncWriteSingleCoilHandler(uint8_t *recvPduFrame, uint16_t *recvPduLength);
+extern eMB_ExceptionType eMB_Master_FuncWriteMultipleCoilsHandler(uint8_t *recvPduFrame, uint16_t *recvPduLength);
+extern eMB_ExceptionType eMB_Master_FuncReadDiscreteInputsHandler(uint8_t *recvPduFrame, uint16_t *recvPduLength);
+
 /* An array of Modbus functions handlers which associates Modbus function
  * codes with implementing functions. */
-static eMB_FuncHandlerType eMB_FuncHandlerCfg[eMB_FUNC_HANDLERS_MAX] = 
+static eMB_FuncCallbackStruct eMB_FuncHandlerCfg[eMB_FUNC_HANDLERS_MAX] = 
 {
 #ifdef eMB_FUNC_OTHER_REP_SLAVEID_ENABLED
   { eMB_FUNC_OTHER_REPORT_SLAVEID,                eMB_FuncReportSlaveIDHandler                                },
@@ -104,7 +117,7 @@ eMB_ConfigStruct *eMB_gConfigPtr;
 *                                   FUNCTIONS IMPLEMENTATIONS
 ===============================================================================================*/
 
-eMB_ErrorCodeType eMB_Init(eMB_ConfigStruct *config)
+eMB_ErrorCodeType eMB_Init(const eMB_ConfigStruct *config)
 {
   eMB_ErrorCodeType errStatus = eMB_ENOERR;
 
@@ -114,7 +127,7 @@ eMB_ErrorCodeType eMB_Init(eMB_ConfigStruct *config)
   }
   else
   {
-    eMB_gConfigPtr = config;
+    eMB_gConfigPtr = (eMB_ConfigStruct *)config;
 
     switch (eMB_gConfigPtr->comm)
     {
@@ -304,12 +317,12 @@ void eMB_MainFunction(void)
                 for (j = 1; j <= eMB_MASTER_TOTAL_SLAVE_NUM; j++)
                 {
                   eMB_FrameSetSlaveAddressCalloutArr(j);
-                  exptStatus = eMB_FuncHandlerCfg[funcCodeHdlrIdx].pxHandler(pduFrame, &pduLength);
+                  exptStatus = eMB_FuncHandlerCfg[funcCodeHdlrIdx].pFuncCbk(pduFrame, &pduLength);
                 }
               }
               else
               {
-                exptStatus = eMB_FuncHandlerCfg[funcCodeHdlrIdx].pxHandler(pduFrame, &pduLength);
+                exptStatus = eMB_FuncHandlerCfg[funcCodeHdlrIdx].pFuncCbk(pduFrame, &pduLength);
               }
 
               break;
@@ -360,8 +373,6 @@ void eMB_MainFunction(void)
     }
   }
 }
-
-#endif
 
 
 

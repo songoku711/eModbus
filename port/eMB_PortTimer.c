@@ -51,9 +51,9 @@ static void eMB_WEH_PortTimerElapsedCallback(TIM_HandleTypeDef *xTimer);
 *                                   FUNCTIONS IMPLEMENTATIONS
 ===============================================================================================*/
 
-/* By default we acknowledged that timer frequency is 1MHz (period is 1us) */
+/* By default we acknowledged that timer frequency is 10kHz (period is 100us) */
 bool eMB_WEH_PortTimersInit(void)
-{  
+{
   __HAL_TIM_SetAutoreload(eMB_WEH_PORT_TIMER_INSTANCE, (eMB_MASTER_DELAY_MS_T35 - 1));
   HAL_TIM_RegisterCallback(eMB_WEH_PORT_TIMER_INSTANCE, HAL_TIM_PERIOD_ELAPSED_CB_ID, eMB_WEH_PortTimerElapsedCallback);
   

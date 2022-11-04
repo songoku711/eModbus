@@ -27,14 +27,14 @@ extern "C" {
 *                                       DEFINES AND MACROS
 ===============================================================================================*/
 
-#define eMB_PDU_REQ_READ_ADDR_OFF                 ( eMB_PDU_DATA_OFF + 0 )
-#define eMB_PDU_REQ_READ_REGCNT_OFF               ( eMB_PDU_DATA_OFF + 2 )
+#define eMB_PDU_REQ_READ_ADDR_OFF                 ( eMB_PDU_DATA_OFFSET + 0 )
+#define eMB_PDU_REQ_READ_REGCNT_OFF               ( eMB_PDU_DATA_OFFSET + 2 )
 #define eMB_PDU_REQ_READ_SIZE                     ( 4 )
-#define eMB_PDU_FUNC_READ_BYTECNT_OFF             ( eMB_PDU_DATA_OFF + 0 )
-#define eMB_PDU_FUNC_READ_VALUES_OFF              ( eMB_PDU_DATA_OFF + 1 )
+#define eMB_PDU_FUNC_READ_BYTECNT_OFF             ( eMB_PDU_DATA_OFFSET + 0 )
+#define eMB_PDU_FUNC_READ_VALUES_OFF              ( eMB_PDU_DATA_OFFSET + 1 )
 #define eMB_PDU_FUNC_READ_SIZE_MIN                ( 1 )
 
-#define eMB_PDU_FUNC_READ_RSP_BYTECNT_OFF         ( eMB_PDU_DATA_OFF )
+#define eMB_PDU_FUNC_READ_RSP_BYTECNT_OFF         ( eMB_PDU_DATA_OFFSET )
 
 
 
@@ -84,9 +84,9 @@ eMB_ErrorCodeType eMB_Master_RequestReadInputRegister
     /* Fill payload data */
     pPduBuffer[eMB_PDU_FUNC_OFFSET]             = eMB_FUNC_READ_INPUT_REGISTER;
     pPduBuffer[eMB_PDU_REQ_READ_ADDR_OFF]       = (uint8_t)(inputAddr >> 8U);
-    pPduBuffer[eMB_PDU_REQ_READ_ADDR_OFF + 1]   = (uint8_t)(inputAddr && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_READ_ADDR_OFF + 1]   = (uint8_t)(inputAddr & (uint16_t)0x00FFU);
     pPduBuffer[eMB_PDU_REQ_READ_REGCNT_OFF]     = (uint8_t)(inputNum >> 8U);
-    pPduBuffer[eMB_PDU_REQ_READ_REGCNT_OFF + 1] = (uint8_t)(inputNum && (uint16_t)0x00FFU);
+    pPduBuffer[eMB_PDU_REQ_READ_REGCNT_OFF + 1] = (uint8_t)(inputNum & (uint16_t)0x00FFU);
 
     /* Set PDU buffer length */
     eMB_FrameSetSendPduLengthCalloutArr(eMB_PDU_SIZE_MIN + eMB_PDU_REQ_READ_SIZE);

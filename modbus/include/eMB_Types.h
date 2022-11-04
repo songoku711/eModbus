@@ -21,15 +21,51 @@ extern "C" {
 * 3) internal and external interfaces from this unit
 ===============================================================================================*/
 
+#include "stdio.h"
 #include "stdint.h"
 #include "stdbool.h"
 #include "stdlib.h"
+
+#include "string.h"
 
 
 
 /*===============================================================================================
 *                                       DEFINES AND MACROS
 ===============================================================================================*/
+
+typedef enum _eMB_EventType
+{
+  eMB_EV_READY                                    = (0x01),           /*!< Startup finished. */
+  eMB_EV_FRAME_RECEIVED                           = (0x02),           /*!< Frame received. */
+  eMB_EV_EXECUTE                                  = (0x04),           /*!< Execute function. */
+  eMB_EV_FRAME_SENT                               = (0x08),           /*!< Frame sent. */
+  eMB_EV_ERROR                                    = (0x80),           /*!< Frame error. */
+  eMB_EV_ALL                                      = (0xFF)            /*!< All events. */
+} eMB_EventType;
+
+typedef enum _eMB_ErrorEventType
+{
+  eMB_EV_ERROR_RESPOND_TIMEOUT,                                       /*!< Slave respond timeout. */
+  eMB_EV_ERROR_RECEIVE_DATA,                                          /*!< Receive frame data error. */
+  eMB_EV_ERROR_EXECUTE_FUNCTION,                                      /*!< Execute function error. */
+} eMB_ErrorEventType;
+
+/*! \ingroup modbus
+ * \brief Error codes used by all function in the protocol stack.
+ */
+typedef enum _eMB_ErrorCodeType
+{
+  eMB_ENOERR,                                                         /*!< no error. */
+  eMB_ENOREG,                                                         /*!< illegal register address. */
+  eMB_EINVAL,                                                         /*!< illegal argument. */
+  eMB_EPORTERR,                                                       /*!< porting layer error. */
+  eMB_ENORES,                                                         /*!< insufficient resources. */
+  eMB_EIO,                                                            /*!< I/O error. */
+  eMB_EILLSTATE,                                                      /*!< protocol stack in illegal state. */
+  eMB_EBUSY,                                                          /*!< busy. */
+  eMB_ETIMEDOUT                                                       /*!< timeout error occurred. */
+} eMB_ErrorCodeType;
 
 typedef enum _eMB_ExceptionType
 {

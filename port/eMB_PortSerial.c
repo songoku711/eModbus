@@ -20,6 +20,8 @@ extern "C" {
 
 #include "eMB.h"
 
+#include "cmsis_os.h"
+#include "main.h"
 #include "usart.h"
 
 
@@ -28,7 +30,7 @@ extern "C" {
 *                                       DEFINES AND MACROS
 ===============================================================================================*/
 
-#define eMB_WEH_PORT_SERIAL_INSTANCE              &huart1
+#define eMB_WEH_PORT_SERIAL_INSTANCE              huart4
 
 #define eMB_WEH_PORT_SERIAL_TX_MODE()             { RS485_CS_GPIO_Port->ODR |= (uint32_t)RS485_CS_Pin; }
 #define eMB_WEH_PORT_SERIAL_RX_MODE()             { RS485_CS_GPIO_Port->ODR &= (uint32_t)(~((uint32_t)RS485_CS_Pin)); }
@@ -42,10 +44,21 @@ extern "C" {
 *                                           VARIABLES
 ===============================================================================================*/
 
-/* software simulation serial transmit IRQ handler thread */
-static TaskHandle_t eMB_WEH_PortSerialTxTaskHandle = NULL;
-/* serial event */
+/* Serial hardware instance */
+UART_HandleTypeDef* eMB_WEH_pUartIns;
+
+/* Serial event */
 static osEventFlagsId_t eMB_WEH_PortSerialTxEvent;
+
+/* Definitions for eMB_WEH_PortSerialTxTask */
+osThreadId_t eMB_WEH_PortSerialTxTaskHandle;
+const osThreadAttr_t eMB_WEH_PortSerialTxTask_attributes = {
+  .name = "eMBTxTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal7,
+};
+
+static uint8_t eMB_recvData;
 
 
 
@@ -64,22 +77,19 @@ static void eMB_WEH_PortSerialRxCpltCallback(struct __UART_HandleTypeDef *huart)
 
 bool eMB_WEH_PortSerialInit(void)
 {
+  eMB_WEH_pUartIns = &eMB_WEH_PORT_SERIAL_INSTANCE;
+
   /* Disable serial interrupt and register interrupt callback */
-  __HAL_UART_DISABLE_IT(eMB_WEH_PORT_SERIAL_INSTANCE, UART_IT_RXNE);
-  __HAL_UART_DISABLE_IT(eMB_WEH_PORT_SERIAL_INSTANCE, UART_IT_TC);
-  HAL_UART_RegisterCallback(eMB_WEH_PORT_SERIAL_INSTANCE, HAL_UART_RX_COMPLETE_CB_ID, eMB_WEH_PortSerialRxCpltCallback);
+  __HAL_UART_DISABLE_IT(eMB_WEH_pUartIns, UART_IT_RXNE);
+  __HAL_UART_DISABLE_IT(eMB_WEH_pUartIns, UART_IT_TC);
+  HAL_UART_RegisterCallback(eMB_WEH_pUartIns, HAL_UART_RX_COMPLETE_CB_ID, eMB_WEH_PortSerialRxCpltCallback);
 
   /* Create master transmitter event */
   eMB_WEH_PortSerialTxEvent = osEventFlagsNew(NULL);
   
   /* Create master transmitter task */
-  BaseType_t xReturn = xTaskCreate((TaskFunction_t)eMB_WEH_PortSerialTxTask,              /* Task entry function */
-                                   (const char *)"WEH TX",                                /* Task name */
-                                   (uint16_t)512,                                         /* Task stack size */
-                                   (void *)NULL,                                          /* Task entry function parameters */
-                                   (UBaseType_t)40,                                       /* Priority of task */
-                                   (TaskHandle_t *)&eMB_WEH_PortSerialTxTaskHandle);      /* Task control block pointer */
-
+  eMB_WEH_PortSerialTxTaskHandle = osThreadNew(eMB_WEH_PortSerialTxTask, NULL, &eMB_WEH_PortSerialTxTask_attributes);
+  
   eMB_WEH_PORT_SERIAL_RX_MODE();
   
   return true;
@@ -89,23 +99,23 @@ void eMB_WEH_PortSerialSetMode(eMB_PortSerialModeType serialMode)
 {
   switch (serialMode)
   {
-    case eMB_WEH_PORT_SERIAL_TX:
+    case eMB_PORT_SERIAL_TX:
     {
       /* Switch 485 to transmit mode */
       eMB_WEH_PORT_SERIAL_TX_MODE();
       
       /* Disable RX interrupt */
-      __HAL_UART_DISABLE_IT(serial, UART_IT_RXNE);
+      __HAL_UART_DISABLE_IT(eMB_WEH_pUartIns, UART_IT_RXNE);
 
       /* Start serial transmit */
       osEventFlagsSet(eMB_WEH_PortSerialTxEvent, eMB_WEH_PORT_SERIAL_TXEVENT_START);
 
       break;
     }
-    case eMB_WEH_PORT_SERIAL_RX:
+    case eMB_PORT_SERIAL_RX:
     {
       /* Enable RX interrupt */
-      __HAL_UART_ENABLE_IT(serial, UART_IT_RXNE);
+      __HAL_UART_ENABLE_IT(eMB_WEH_pUartIns, UART_IT_RXNE);
 
       /* Switch 485 to receive mode */
       eMB_WEH_PORT_SERIAL_RX_MODE();
@@ -122,9 +132,9 @@ void eMB_WEH_PortSerialSetMode(eMB_PortSerialModeType serialMode)
 
 bool eMB_WEH_PortSerialPutByte(uint8_t data)
 {
-  while (!(serial->Instance->SR & UART_FLAG_TXE));
-  serial->Instance->DR = data;
-  while (!(serial->Instance->SR & UART_FLAG_TC));
+  while (!(eMB_WEH_pUartIns->Instance->SR & UART_FLAG_TXE));
+  eMB_WEH_pUartIns->Instance->DR = data;
+  while (!(eMB_WEH_pUartIns->Instance->SR & UART_FLAG_TC));
 
   return true;
 }
@@ -165,11 +175,9 @@ static void eMB_WEH_PortSerialTxTask(void* parameter)
   */
 void eMB_WEH_PortSerialRxCpltCallback(UART_HandleTypeDef *huart)
 {
-  uint8_t ch;
-  
-  if (serial->Instance->SR & UART_FLAG_RXNE)
+  if (eMB_WEH_pUartIns->Instance->SR & UART_FLAG_RXNE)
   {
-    eMB_recvData = serial->Instance->DR & (uint8_t)0xFFU;
+    eMB_recvData = eMB_WEH_pUartIns->Instance->DR & (uint8_t)0xFFU;
 
     /* execute modbus callback */
     eMB_Master_RTUFrameByteReceivedCallback();
